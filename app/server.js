@@ -31,12 +31,3 @@ function listening() {
   console.log("server running");
   console.log(`running on localhost: ${port}`);
 }
-
-
-
-
-
-
-
-/* API */
-const weatherKey = '<api key goes here>&units=imperial';
