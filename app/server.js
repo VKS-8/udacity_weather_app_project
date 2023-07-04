@@ -1,3 +1,6 @@
+/* JS object */
+const projectData = {};
+
 // Express to run server and routes
 const express = require('express');
 
@@ -14,6 +17,11 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
+// Cors for cross origin allowance
+const cors = require('cors');
+
+app.use(cors());
+
 const port = 5500;
 
 // Spin up server
@@ -24,8 +32,9 @@ function listening() {
   console.log(`running on localhost: ${port}`);
 }
 
-/* JS object */
-const projectData = {};
+
+
+
 
 
 

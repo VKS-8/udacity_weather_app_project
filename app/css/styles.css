@@ -16,6 +16,11 @@ body{
   font-family: 'Oswald', sans-serif;
 }
 
+fieldset {
+  border: none;
+  
+}
+
 .holder{
 
 }
@@ -73,7 +78,9 @@ button{
   font-family: 'Oswald', sans-serif;
   border: none;
   box-shadow: 2px 4px 5px #444;
+  cursor: pointer;
 }
+
 h1{
   font-size: 36px;
 }
@@ -108,4 +115,4 @@ button:focus {
   color: #f0d43a;
   font-family: 'Oswald', sans-serif;
 
-} 
+}
