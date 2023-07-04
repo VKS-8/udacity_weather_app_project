@@ -1,4 +1,11 @@
+import 'bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './css/styles.css';
+
 /* Global Variables */
+
+// Personal API Key for OpenWeatherMap API
+const apiKey = '<your_api_key>&units=imperial';
 
 // Create a new date instance dynamically with JS
 let d = new Date();
@@ -6,6 +13,7 @@ let newDate = d.getMonth()+'.'+ d.getDate()+'.'+ d.getFullYear();
 
 document.addEventListener('DOMContentLoaded', funtion() {
 //TODO add appropriate calls here
+
 
 });
 
