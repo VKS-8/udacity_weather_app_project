@@ -1,37 +1,39 @@
-import 'bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './css/styles.css';
-
 /* Global Variables */
 
 // Personal API Key for OpenWeatherMap API
-const KEY = process.env.API_KEY; // Access API key
-const API_URL = 'https://api.openweathermap.org/data/2.5/weather';
-
-const zip = document.querySelector('#zip').value;
+const apiKey = process.env.API_KEY; // Access API key
+const baseURL = 'http://api.openweathermap.org/geo/1.0/zip';
+const zipInput = document.querySelector('#zip');
+const feelingsInput = document.querySelector('#feelings');
+const submitBtn = document.querySelector('#generate');
+const entryHolder = document.querySelector('#entryHolder');
 
 // Business Logic
 
 // Get data from OpenWeatherMap API
-async function getCurrentWeather() {
-  const url = `${API_URL}?zip=${zip}&appid=${KEY}`;
+const getCurrentWeather = async () => {
+  const zip = zipInput.value;
+  const apiURL = `/getWeatherData?apiKey=${apiKey}&zip=${zip}`;
+
   try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error('Network response was not successful.');
+    const response = await fetch(apiURL);
+    if(!response.ok) {
+      throw new Error('Network response was not successful');
     }
-    const data = await response.json();
-    return data;
+    const apiResponse = await response.json();
+    return apiResponse;
   } catch (error) {
-    console.error('Error fetching weather data:', error);
+    console.error('Error fetching weather data: ', error);
     throw error;
   }
 }
 
-// Post data to the server
-async function postData(url = '', data = {}) {
+// UI Logic
+
+// Post data to update UI
+const postData = async (data) => {
   try {
-    const response = await fetch(url, {
+    const response = await fetch('/saveWeatherData', {
       method: 'POST',
       credentials: 'same-origin',
       headers: {
@@ -49,25 +51,22 @@ async function postData(url = '', data = {}) {
   }
 }
 
-// UI Logic
-
-function printResults(apiResponse, zip) {
-  document.querySelector('#temp').innerText = Math.round(allData.temp)+ 'degrees';
-  document.querySelector('#content').innerText = allData.feel;
-  document.querySelector('#date').innerText = allData.date;
-
+// Update the UI
+const updateUI = (data) => {
+  const {temperature, date, userResponse} = data;
+  const entryHtml = `
+    <div id="date">${date}</div>
+    <div id="temp">${temperature}°C</div>
+    <div id="content">${userResponse}</div>
+    `;
+  entryHolder.innerHTML = entryHtml;
 }
 
-function printError(request, apiResponse, zip) {
-  document.querySelector('#showResponse').innerText = `There was an error accessing the weather data for ${city}: ${request.status} ${request.statusText}: ${apiResponse.message}`;
-}
-
-async function generateBtnHandler() {
-  const zipInput = document.querySelector('#zip').value;
-  const feelingsInput = document.querySelector('feelingsInput').value;
+const generateBtnHandler = async (event) => {
+  event.preventDefault(); //Prevent default form submission behavior
 
   try {
-    const weatherData = await getCurrentWeather(zipInput);
+    const weatherData = await getCurrentWeather();
     const temp = weatherData.main.temp;
     const date = new Date().toLocaleDateString();
 
@@ -75,25 +74,33 @@ async function generateBtnHandler() {
     const projectData = {
       temperature: temp,
       date: date,
-      userResponse: feelingsInput,
-    }
+      userResponse: feelingsInput.value,
+    };
 
-    // Post data to the server
-    await postData('/saveData', projectData);
+    // Store data in local storage
+    localStorage.setItem('weatherEntry', JSON.stringify(projectData));
 
-    // Update the UI witht he fetched data
+    // Post data to update UI
+    await postData(projectData);
+
+    // Update the UI with the fetched data
     updateUI(projectData);
   } catch (error) {
     console.error('Error generating data: ', error);
   }
 }
 
-// Event listener for the generate button
-document.querySelector('#generate').addEventListener('click', generateBtnHandler);
+ document.addEventListener('DOMContentLoaded', () => {
 
+  document.querySelector('form').addEventListener('submit', function(e){
+    document.querySelector('form').addEventListener('submit', generateBtnHandler)
+ });
 
+  // Event listener for the generate button
+  document.querySelector('#generate').addEventListener('click', generateBtnHandler);
+  submitBtn.addEventListener('click', generateBtnHandler);
+});
 
- document.addEventListener('DOMContentLoaded', function() {
-  //TODO add appropriate calls here
-
-  });
+window.addEventListener('beforeunload', function() {
+  localStorage.clear()
+});

@@ -2,14 +2,17 @@
 const express = require('express');
 const cors = require('cors'); // Cross Origin Resource Sharing
 const app = express(); // Start an instance of the app
-const port = 5500;
+const port = process.env.PORT||5500;
+let weatherData = '';
 require('dotenv').config(); // Loads variables from the .env into process.env
 
 /* Middle-ware */
+// Cross Origin Resource Sharing
 app.use(cors());
 
 // Parse JSON bodies
 app.use(express.json());
+app.use(express.urlencoded({ extended: true}));
 
 // /* Dependencies */
 // const bodyParser = require('body-parser');
@@ -21,12 +24,29 @@ app.use(express.json());
 // Initialize the main project folder
 app.use(express.static('app'));
 
-app.post('/saveData', (req, res) => {
-  const data = req.body; //Access the parsed JSON data sent by the client
-  console.log(data); // Log the JSON data to the server console
-  res.status(200).json({ message: 'Data saved successfully.'});
+app.get('/getWeatherData', (req, res) => {
+  const apiKEYS = process.env.API_KEYS.split(',');
+  const apiKEY = req.query.apiKEY;
+  if (apiKEYS.includes(apiKEY)) {
+    res.send(weatherData); // Send data
+  } else {
+    res.status(401).send('Unauthorized');
+  }
+});
+
+app.post('/saveWeatherData', (req, res) => {
+  const saveWeatherData = req.body; //Access the parsed JSON data sent by the client
+  console.log(saveWeatherData); // Log the JSON data to the server console
+  if (!saveWeatherData || !saveWeatherData.temperature || !saveWeatherData.location) {
+    res.status(400).send('Invalid weather data');
+    return;
+  } else {
+      weatherData = saveWeatherData;
+      res.status(200).json({ message: 'Weather data saved successfully.'});
+  }
 });
 
 app.listen(port, () => {
   console.log(`Server running on http://localhost: ${port}`);
 });
+
