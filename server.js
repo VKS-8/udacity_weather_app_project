@@ -2,8 +2,11 @@
 const express = require('express');
 const cors = require('cors'); // Cross Origin Resource Sharing
 const app = express(); // Start an instance of the app
+require('dotenv').config(); // Loads variables from the .env into process.env
+
 const port = 5500;
 
+/* Middle-ware */
 app.use(cors());
 
 // Parse JSON bodies

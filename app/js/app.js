@@ -5,7 +5,7 @@ import './css/styles.css';
 /* Global Variables */
 
 // Personal API Key for OpenWeatherMap API
-const API_KEY = '<your_api_key>&units=imperial';
+const apiKey = process.env.API_KEY; // Access API key
 const API_URL = 'https://api.openweathermap.org/data/2.5/weather';
 
 const zip = document.querySelector('#zip').value;
@@ -14,7 +14,7 @@ const zip = document.querySelector('#zip').value;
 
 // Get data from OpenWeatherMap API
 async function getCurrentWeather() {
-  const url = `${API_URL}?zip=${zip}&appid=${API_KEY}`;
+  const url = `${API_URL}?zip=${zip}&appid=${apiKey}`;
   try {
     const response = await fetch(url);
     if (!response.ok) {
