@@ -17,7 +17,7 @@ const app = {
   getCurrentWeather: async (e) => {
     require('dotenv').config();
     const baseURL = 'http://api.openweathermap.org/geo/1.0/zip';
-    const apiURL = `${baseURL}?zip=${zip},US&lat=${lat}&lon${long}&lang=${lang}&units=${units}&appid=31f678bba3c481a6499309ca1c6a2874`;
+    const apiURL = `${baseURL}?zip=${zip},US&lat=${lat}&lon${long}&lang=${lang}&units=${units}&appid=`;
     let lat;
     let long;
     let lang = 'en';
