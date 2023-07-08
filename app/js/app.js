@@ -1,63 +1,59 @@
-
+const apiKey = '31f678bba3c481a6499309ca1c6a2874';
+const endpoint = 'api.openweathermap.org/data/2.5/weather?';
+let queryZip = document.querySelector('#zip').value;
+let countryCode = document.querySelector('#countryCode').value;
+countryCode.toUpperCase();
+let units = document.querySelector('#units').value;
+let url = new URL(`${endpoint}zip=${queryZip},${countryCode}&units=${units}&appid=${apiKey}`);
 
 // Function to post data to the server
-// async function postData(url = '', data = {}) {
-//     try {
-//         const response = await fetch(url, {
-//             method: 'POST',
-//             credentials: 'same-origin',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//             },
-//             body: JSON.stringify(data),
-//         });
-//         if (!response.ok) {
-//             throw new Error('Network response was not ok.');
-//         }
-//         return await response.json(); // Return the parsed data
-//     } catch (error) {
-//         console.error('Error posting data:', error);
-//         throw error;
-//     }
-// }
+const postData = async (url = '', data = {}) => {
+  console.log(data);
+  const response = await fetch(url, {
+    method: 'POST',
+    credentials: 'same-origin',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+
+  try {
+    if (!response.ok) {
+        throw new Error('Network response was not ok.');
+    }
+    const newCurrentData = await response.json(); // Return the parsed data
+    console.log(newCurrentData);
+    return newCurrentData;
+  } catch (error) {
+        console.error('Error posting data:', error);
+        throw error;
+    }
+}
 
 // Function to handle button click event
-// async function generateButtonHandler() {
-//     let zipInput = document.getElementById('zip').value;
-//     let feelingInput = document.getElementById('feelings').value;
+let submitUserInput = async function handleBtnClick() {
 
-//     try {
-//         let weatherData = await getWeatherData(zipInput);
-//         let temp = weatherData.main.temp;
-//         let date = new Date().toLocaleDateString();
+// Post data to the server
+let retrievedData = await postData('/current', newCurrentData);
+console.log('Retrieved data: ', retrievedData);
+  try{
+        // Update the UI with the fetched data
+        updateUI(retrievedData);
+    } catch (error) {
+        console.error('Error generating data:', error);
+    }
+}
 
-        // Create an object with the fetched data and user input
-        // const projectData = {
-        //     temperature: temp,
-        //     date: date,
-        //     userResponse: feelingInput,
-        // };
-
-        // Post data to the server
-//         const retrievedData = await postData('/savedData', projectData);
-//         console.log('Retrieved data: ', retrievedData);
-
-//         // Update the UI with the fetched data
-//         updateUI(projectData);
-//     } catch (error) {
-//         console.error('Error generating data:', error);
-//     }
-// }
-
-// Function to update the UI with the fetched data
-// function updateUI(projectData) {
-//     const outputDiv = document.getElementById('output');
-//     outputDiv.innerHTML = `
-//         <p>Date: ${data.date}</p>
-//         <p>Temperature: ${data.temperature}°C</p>
-//         <p>Feeling: ${data.userResponse}</p>
-//     `;
-// }
+//Function to update the UI with the fetched data
+let updateUI = async function updateUI(retrievedData) {
+    const outputDiv = document.getElementById('output');
+    outputDiv.innerHTML = `
+        <p>Date: ${retrievedData.date}</p>
+        <p>Temperature: ${retrievedData.temperature}°C</p>
+        <p>Feeling: ${retrievedData.userResponse}</p>
+    `;
+}
 
 // Event listener for the Generate button
-// document.getElementById('generateButton').addEventListener('click', generateButtonHandler);
+document.getElementById('generate').addEventListener('click', generateButtonHandler);
