@@ -33,8 +33,8 @@ app.post('/currentData', (req, res)=>{
   let options = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
   let date = new Date().toLocaleDateString('en-US', options);
 
-  let currentWeather = request.body;
-  console.log(data);
+  let currentWeather = currentData;
+  console.log(currentWeather);
   let newCurrent = {
     temp: currentWeather.main.temp,
     date: date
