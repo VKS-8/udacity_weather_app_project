@@ -36,7 +36,7 @@ let submitUserInput = async function handleBtnClick(e) {
   e.preventDefault();
 
   // Post data to the server
-  let retrievedData = await postData('/current', newCurrentData);
+  let retrievedData = await postData('/currentData', newCurrentData);
   console.log('Retrieved data: ', retrievedData);
     try{
           // Update the UI with the fetched data
