@@ -32,28 +32,29 @@ const postData = async (url = '', data = {}) => {
 }
 
 // Function to handle button click event
-let submitUserInput = async function handleBtnClick() {
+let submitUserInput = async function handleBtnClick(e) {
+  e.preventDefault();
 
-// Post data to the server
-let retrievedData = await postData('/current', newCurrentData);
-console.log('Retrieved data: ', retrievedData);
-  try{
-        // Update the UI with the fetched data
-        updateUI(retrievedData);
-    } catch (error) {
-        console.error('Error generating data:', error);
-    }
-}
+  // Post data to the server
+  let retrievedData = await postData('/current', newCurrentData);
+  console.log('Retrieved data: ', retrievedData);
+    try{
+          // Update the UI with the fetched data
+          updateUI(retrievedData);
+      } catch (error) {
+          console.error('Error generating data:', error);
+      }
+  }
 
-//Function to update the UI with the fetched data
-let updateUI = async function updateUI(retrievedData) {
-    const outputDiv = document.getElementById('output');
-    outputDiv.innerHTML = `
-        <p>Date: ${retrievedData.date}</p>
-        <p>Temperature: ${retrievedData.temperature}°C</p>
-        <p>Feeling: ${retrievedData.userResponse}</p>
-    `;
+  //Function to update the UI with the fetched data
+  let updateUI = async function updateUI(retrievedData) {
+      const outputDiv = document.getElementById('output');
+      outputDiv.innerHTML = `
+          <p>Date: ${retrievedData.date}</p>
+          <p>Temperature: ${retrievedData.temperature}°C</p>
+          <p>Feeling: ${retrievedData.userResponse}</p>
+      `;
 }
 
 // Event listener for the Generate button
-document.getElementById('generate').addEventListener('click', generateButtonHandler);
+document.getElementById('generate').addEventListener('click', submitUserInput);
