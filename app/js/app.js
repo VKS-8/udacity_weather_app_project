@@ -1,28 +1,4 @@
-const API_KEY = '31f678bba3c481a6499309ca1c6a2874';
-const baseURL = 'https://api.openweathermap.org/data/2.5/weather';
-let newZip = document.querySelector('#zip');
 
-// Function to get weather data from OpenWeatherMap API
-async function getWeatherData() {
-    const url = new URL(`${baseURL}?zip=${newZip},US&appid=${API_KEY}`);
-
-    const request = new Request(url, {
-      headers: {'check-header-info': 'TODO'},
-      method: 'GET',
-      cache: 'no-store',
-    });
-
-    fetch(request)
-      .then((response) => {
-      console.log(response.status);
-      if(!response.ok)
-        throw new Error('Invalid request');
-        return response.json();
-    }).then((data) => {
-        console.log(data);
-    })
-      .catch(error=>console.error(error.message));
-    }
 
 // Function to post data to the server
 // async function postData(url = '', data = {}) {
