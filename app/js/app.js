@@ -4,8 +4,11 @@ let queryZip = document.querySelector('#zip').value;
 let countryCode = document.querySelector('#countryCode').value;
 countryCode.toUpperCase();
 let units = document.querySelector('#units').value;
-let url = new URL(`${endpoint}zip=${queryZip},${countryCode}&units=${units}&appid=${apiKey}`);
+// let url = new URL(`${endpoint}zip=${queryZip},${countryCode}&units=${units}&appid=${apiKey}`);
 // let url = 'api.openweathermap.org/data/2.5/weather?zip=74401,US&units=imperial&appid=a015a65017adbd101ca22b552c04e5dd';
+
+endpoint.searchParams.set(`${apiKey}`, `zip=${zip},${countryCode}&units${units}&appid=${apiKey}`)
+
 // Function to post data to the server
 const postData = async (url = '', data = {}) => {
   console.log(data);
