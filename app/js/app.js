@@ -1,16 +1,17 @@
-const apiKey = '31f678bba3c481a6499309ca1c6a2874';
-const endpoint = 'api.openweathermap.org/data/2.5/weather?';
+const apiKey = 'a015a65017adbd101ca22b552c04e5dd';
+const endpoint = 'https://api.openweathermap.org/data/2.5/weather?';
 let queryZip = document.querySelector('#zip').value;
 let countryCode = document.querySelector('#countryCode').value;
 countryCode.toUpperCase();
 let units = document.querySelector('#units').value;
 let url = new URL(`${endpoint}zip=${queryZip},${countryCode}&units=${units}&appid=${apiKey}`);
-
+// let url = 'api.openweathermap.org/data/2.5/weather?zip=74401,US&units=imperial&appid=a015a65017adbd101ca22b552c04e5dd';
 // Function to post data to the server
 const postData = async (url = '', data = {}) => {
   console.log(data);
   const response = await fetch(url, {
     method: 'POST',
+    mode: 'cors',
     credentials: 'same-origin',
     headers: {
       'Content-Type': 'application/json',
