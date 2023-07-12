@@ -4,13 +4,14 @@ let queryZip = document.querySelector('#zip').value;
 let countryCode = document.querySelector('#countryCode').value;
 countryCode.toUpperCase();
 let units = document.querySelector('#units').value;
-let url = new URL(`${endpoint}zip=${queryZip},${countryCode}&units=${units}&appid=${apiKey}`);
+let url = new URL('api.openweathermap.org/data/2.5/weather?zip=74401,US&APPID=3a4f71ba50bab790d1cad75ea3699ce9');
 
 // Function to post data to the server
 const postData = async (url = '', data = {}) => {
   console.log(data);
   const response = await fetch(url, {
     method: 'POST',
+    mode: 'cors',
     credentials: 'same-origin',
     headers: {
         'Content-Type': 'application/json',
