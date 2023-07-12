@@ -1,14 +1,14 @@
 import express from 'express';
 import fetch from 'node-fetch';
 import cors from 'cors';
-import dotenv from 'dotenv';
+import { getEnvVariables } from './env';
+
+config() // access variables with dotenv
 
 
 // Express to run server and routes
-const express = require('express');
-const cors = require('cors'); // Cross Origin Resource Sharing
+// Start instance of Express app
 const app = express(); // Start an instance of the app
-require('dotenv').config(); // Use to access files in the .gitignore .env file
 const port = process.env.PORT || 5500;
 
 /* Middle-ware */
@@ -17,7 +17,7 @@ app.use(cors());
 
 // Parse JSON bodies
 app.use(express.json());
-app.use(express.urlencoded({ extended: true}));
+app.use(express.urlencoded({ extended: false}));
 app.use(express.static('app', {
   setHeaders: (res, path) => {
     if (path.endsWith('.js')) {
@@ -25,28 +25,29 @@ app.use(express.static('app', {
     }
   }
 }));
+app.use(fetch());
 
-let currentData = {};
+// app.post('/userInput', (req, res)=>{
+//   //https://www.techiedelight.com/get-current-date-time-javascript/ (date code)
+//   let options = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
+//   let date = new Date().toLocaleDateString('en-US', options);
+//   res.send('Here I am!');
+// });
 
-app.post('/currentData', (req, res)=>{
-  //https://www.techiedelight.com/get-current-date-time-javascript/ (date code)
-  let options = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
-  let date = new Date().toLocaleDateString('en-US', options);
 
-  let currentWeather = currentData;
-  console.log(currentWeather);
-  let newCurrent = {
-    temp: currentWeather.main.temp,
-    date: date
-  }
-});
 
-app.get('url', getWeatherData);
+const apiURL = 'api.openweathermap.org/data/2.5/weather?';
+let byZip = `zip=${zip},US&appid=`
+const apiKEY = process.env.API_KEY3;
 
-const getWeatherData = async (req, res) => {
-  console.log(req.body);
-  currentData.push(req.body);
+async function getWeatherData() {
+  const response = await fetch(`api.openweathermap.org/data/2.5/weather?zip=74401,US&APPID=3a4f71ba50bab790d1cad75ea3699ce9`);
+  let data = await response.json();
+  res.send(data);
 }
+
+getWeatherData();
+
 
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
