@@ -1,15 +1,17 @@
 // Function to post data to the server
-const postData = async (url = '', data = {}) => {
-  console.log(data);
-  const response = await fetch('http://localhost:5501/clientRequest', {
+const postData = async (request, response) => {
+
+
+  const request = await fetch('http://127.0.0.1:5501/clientRequest', {
     method: 'POST',
     mode: 'cors',
     credentials: 'same-origin',
     headers: {
         'Content-Type': 'application/json',
     },
-    body: JSON.stringify(data),
+    body: JSON.stringify(request)
   });
+  sessionStorage.setItem('data', request);
 
   try {
     if (!response.ok) {
@@ -24,19 +26,32 @@ const postData = async (url = '', data = {}) => {
     }
 }
 
-// Function to handle button click event
-let submitUserInput = async function handleBtnClick() {
-
 //Function to update the UI with the fetched data
-let updateUI = async function updateUI(retrievedData) {
+async function updateUI(data) {
+  let temp = data.main.temp;
+  let date = new Date().toLocaleDateString();
+  let feelings = document.getElementById('feelings').value;
   const outputDiv = document.getElementById('output');
   outputDiv.innerHTML = `
-    <p>Date: ${retrievedData.date}</p>
-    <p>Temperature: ${retrievedData.temperature}°C</p>
-    <p>Feeling: ${retrievedData.userResponse}</p>
+    <p>Date: ${date}</p>
+    <p>Temperature: ${temp}°C</p>
+    <p>Feeling: ${feelings}</p>
   `;
 }
 
-// Event listener for the Generate button
-// document.getElementById('generate').addEventListener('click', generateButtonHandler);
+window.onload() {
+
+  // Function to handle button click event
+  let transmitUserInput = async function handleBtnClick() {
+
+  // Send user input to the server
+  postData();
+
+  // Update the UI with retrieved data based on user input
+
+  updateUI();
+
+  // Event listener for the Generate button
+  // document.getElementById('generate').addEventListener('click', generateButtonHandler);
+  }
 }
