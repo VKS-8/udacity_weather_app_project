@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
-import { getEnvVariables } from '/.env';
+// import { getEnvVariables } from '/env.js';
+import dotenv from 'dotenv';
 
 // Access variables with dotenv
 dotenv.config()
@@ -28,13 +29,15 @@ app.use(express.static('client', {
 // Test server
 app.get('/', (req, res) => {
   res.send("Your server is working");
+  console.log(response.body);
 });
 
-// Route that handles login logic
-app.post('/clientRequest', (req, res) => {
+// Route that handles input logic
+app.post('http://127.0.0.1:5501/clientRequest', (req, res) => {
   console.log(req.body.zip);
   console.log(req.body.countryCode);
   console.log(req.body.units)
+
 });
 
 app.post('/clientRequest', (req, res)=>{
