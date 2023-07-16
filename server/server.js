@@ -29,15 +29,14 @@ app.use(express.static('client', {
 // Test server
 app.get('/', (req, res) => {
   res.send("Your server is working");
-  console.log(response.body);
+  console.log(res.body);
 });
 
 // Route that handles input logic
 app.post('http://localhost:5501/clientRequest', (req, res) => {
   console.log(req.body.zip);
   console.log(req.body.countryCode);
-  console.log(req.body.units)
-
+  console.log(req.body.units);
 });
 
 app.post('/clientRequest', (req, res)=>{
@@ -51,9 +50,9 @@ app.post('/clientRequest', (req, res)=>{
 
 async function getWeatherData() {
   let zip = document.querySelector('#zip').value;
-  let countryCode = document.querySelector('countryCode').value.toUpperCase();
-  let units = document.querySelector('units').value;
-  const response = await fetch(`http://api.openweathermap.org/data/2.5/weather?zip=${zip},${countryCode}&units=${units}&APPID=a308e7287b4c480280bef12289998f2c`);
+  let countryCode = document.querySelector('#countryCode').value.toUpperCase();
+  let units = document.querySelector('#units').value;
+  const response = await fetch(`http://api.openweathermap.org/data/2.5/weather?zip=${zip},${countryCode}&units=${units}&APPID=0cbd903252e3f29c6f6ad83595b63ba3`);
   let data = await response.json();
   res.send(data);
 }
