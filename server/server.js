@@ -33,7 +33,7 @@ app.get('/', (req, res) => {
 });
 
 // Route that handles input logic
-app.post('http://127.0.0.1:5501/clientRequest', (req, res) => {
+app.post('http://localhost:5501/clientRequest', (req, res) => {
   console.log(req.body.zip);
   console.log(req.body.countryCode);
   console.log(req.body.units)
