@@ -2,15 +2,21 @@
 const postData = async (request, response) => {
 
 
-  const request = await fetch('http://127.0.0.1:5501/clientRequest', {
+  const request = await fetch('http://localhost:5501/clientRequest', {
     method: 'POST',
     mode: 'cors',
     credentials: 'same-origin',
     headers: {
-        'Content-Type': 'application/json',
+      'Content-Type': 'application/json',
     },
-    body: JSON.stringify(request)
+    body: JSON.stringify(request),
+    return: {
+      statusCode: 200,
+      contentType: "application/json",
+      request
+    }
   });
+
   sessionStorage.setItem('data', request);
 
   try {
