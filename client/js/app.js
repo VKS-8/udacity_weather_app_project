@@ -2,22 +2,22 @@
 const postData = async (request, response) => {
 
 
-  const request = await fetch('http://localhost:5501/clientRequest', {
+  const response = await fetch('http://localhost:5501/clientRequest', {
     method: 'POST',
     mode: 'cors',
     credentials: 'same-origin',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(request),
+    body: JSON.stringify(response),
     return: {
       statusCode: 200,
       contentType: "application/json",
-      request
+      response
     }
   });
 
-  sessionStorage.setItem('data', request);
+  sessionStorage.setItem('data', response);
 
   try {
     if (!response.ok) {
@@ -34,7 +34,7 @@ const postData = async (request, response) => {
 
 //Function to update the UI with the fetched data
 async function updateUI(data) {
-  let temp = data.main.temp;
+  let {temp = 'data.main.temp'} = temp;
   let date = new Date().toLocaleDateString();
   let feelings = document.getElementById('feelings').value;
   const outputDiv = document.getElementById('output');
