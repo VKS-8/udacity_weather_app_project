@@ -37,6 +37,7 @@ app.post('http://localhost:5501/clientRequest', (req, res) => {
   console.log(req.body.zip);
   console.log(req.body.countryCode);
   console.log(req.body.units);
+  return req.body;
 });
 
 app.post('/clientRequest', (req, res)=>{
