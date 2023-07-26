@@ -1,7 +1,6 @@
 // Function to post data to the server
 const postData = async (request, response) => {
 
-
   const response = await fetch('http://localhost:5501/clientRequest', {
     method: 'POST',
     mode: 'cors',
